@@ -1,6 +1,5 @@
-
 import "dotenv/config";
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 import {
   MongoClient,
   makeMongoDbEmbeddedContentStore,
@@ -22,20 +21,17 @@ import {
   EmbedResult,
 } from "mongodb-chatbot-server";
 
-import { getEnvConfigInstance, preConfigMessage } from "./config";
+import { getEnvConfigInstance, preConfigMessage } from "./config.js";
 
-const MONGODB_CONNECTION_URI: string = process.env
-  .MONGODB_CONNECTION_URI as string;
-const VECTOR_SEARCH_INDEX_NAME: string = process.env
-  .VECTOR_SEARCH_INDEX_NAME as string;
-const MONGODB_DATABASE_NAME: string = process.env
-  .MONGODB_DATABASE_NAME as string;
+const MONGODB_CONNECTION_URI: string = process.env.MONGODB_CONNECTION_URI as string;
+const VECTOR_SEARCH_INDEX_NAME: string = process.env.VECTOR_SEARCH_INDEX_NAME as string;
+const MONGODB_DATABASE_NAME: string = process.env.MONGODB_DATABASE_NAME as string;
 
 class SimpleEmbedder implements Embedder {
-  openAiClient: any;
+  openAiClient: OpenAIClient;  // Specifying the type here
   embeddingDeployment: string;
 
-  constructor(openAiClient, embeddingDeployment) {
+  constructor(openAiClient: OpenAIClient, embeddingDeployment: string) {  // And here
     this.openAiClient = openAiClient;
     this.embeddingDeployment = embeddingDeployment;
   }
